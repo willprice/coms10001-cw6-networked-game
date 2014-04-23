@@ -1,7 +1,7 @@
 package game;
 import game.GameController.PlayerAssignments;
-
 import gui.TriggeredGUI;
+import ai.AI;
 import ai.RandomAI;
 import state.*;
 
@@ -27,7 +27,7 @@ public class Game {
 		ClientGameState state = new ClientGameState();
 		GameController controller = new GameController();
 		TriggeredGUI gui = new TriggeredGUI();
-		RandomAI ai = new RandomAI();
+		AI ai = new RandomAI();
 		
 		
 		

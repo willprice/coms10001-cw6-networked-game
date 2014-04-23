@@ -1,5 +1,8 @@
 package ai;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graph.Edge;
 import state.Initialisable;
 
@@ -70,4 +73,36 @@ public abstract class AI {
 	 * @return The move propsed by the AI
 	 */
 	public abstract Move getMove(int playerId);
+
+	protected List<Move> getPossibleMoves(int currentLocation, int playerId) {
+		
+		List<Move> possibleMoves = new ArrayList<Move>();
+		String locationName = Integer.toString(currentLocation);
+		List<Edge> edges = aiReadable.getGraph().edges(locationName);
+		
+		for(Edge e: edges)
+		{
+			int connectingNode = Integer.parseInt(e.connectedTo(locationName));
+			Move move = new Move(convertEdgeTypeToTicketType(e.type()), connectingNode);
+			possibleMoves.add(move);
+			
+			if(aiReadable.getNumberOfTickets(Initialisable.TicketType.SecretMove, playerId) > 0)
+			{
+				Move anotherMove = new Move(Initialisable.TicketType.SecretMove, connectingNode);
+				possibleMoves.add(anotherMove);
+			}
+		
+		}
+		
+	
+		// if player has double or secret moves...
+		if(aiReadable.getNumberOfTickets(Initialisable.TicketType.DoubleMove, playerId) > 0)
+		{
+			possibleMoves.add(new Move(Initialisable.TicketType.DoubleMove, currentLocation));
+		}
+		
+		
+		
+		return possibleMoves;
+	}
 }

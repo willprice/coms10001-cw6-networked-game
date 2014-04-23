@@ -182,8 +182,8 @@ public class TCPClient extends ClientBase implements RemoteControllable {
 
 	private List<Integer> sendMessageToServer(String call) {
 		String result = network.send(call);
-		TextOutput.printDebug("[CALL]: " + call + "\n");
-		TextOutput.printDebug("[RESULT]: " + result + "\n");
+		//TextOutput.printDebug("[CALL]: " + call + "\n");
+		//TextOutput.printDebug("[RESULT]: " + result + "\n");
 		List<Integer> response = splitStringAndParseToIntegerList(result);
 		return response;
 	}

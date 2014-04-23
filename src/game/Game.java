@@ -12,10 +12,10 @@ public class Game {
 		Game game = new Game();
 		TextOutput.setDebugMode(true);
 		
-		int vis = Integer.parseInt(args[1]);
+		int visualise = 0; //Integer.parseInt(args[1]);
 		String name = args[0];
 		
-		if(vis == 0) game.run(name, true);
+		if(visualise == 0) game.run(name, true);
 		else game.run(name,false);
 	}
 	
@@ -38,6 +38,7 @@ public class Game {
 		// register the gui and the ai
 		controller.setAI(ai);
 		controller.registerGUI(gui);
+		
 		
 		// specify the mode of the game we are playing
 		controller.setVisualise(visualise);

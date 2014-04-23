@@ -176,11 +176,10 @@ public class GameController {
 	 */
 	public void run(String sessionName)
 	{
-		if(!setupOK())
-		{
-			TextOutput.printError("Setup Not Ok\n");
-		}
-
+//		if(!setupOK())
+//		{
+//			TextOutput.printError("Setup Not Ok\n");
+//		}
 
 		// set up AI if we are using it
 		if(this.assignments != PlayerAssignments.AllGui)
@@ -220,6 +219,10 @@ public class GameController {
 		gui.registerVisualisable(aiReadable);
 		gui.registerControllable(tcp);
 
+		if(!setupOK())
+		{
+			TextOutput.printError("Setup Not Ok\n");
+		}
 
 		// now we send a message over the network to initialise a new game
 		if(!remoteInitialisable.initialiseServerGame("Test", 5, 1))

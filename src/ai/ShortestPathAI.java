@@ -1,8 +1,15 @@
 package ai;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import com.google.common.collect.Sets;
+
+import state.Initialisable.TicketType;
 import graph.Node;
 
 public class ShortestPathAI extends AI {
@@ -17,35 +24,42 @@ public class ShortestPathAI extends AI {
 		return null;
 	}
 
-	private GameStateNode createGameTree(GameStateNode rootNode, int depth) {
+	private GameStateNode createGameTree(GameStateNode parentNode, int depth) {
 		if (depth > maxDepth) {
 			return null;
 		}
 
         if (((maxDepth - depth) % 2) == 0) {
-        	int mrXLocation = rootNode.getMrXLocation();
+        	int mrXLocation = parentNode.getMrXLocation();
         	int mrXId = aiReadable.getMrXIdList().get(0);
         	List<Move> possibleMoves = getPossibleMoves(mrXLocation, mrXId);
 
         	for (Move move : possibleMoves) {
         		GameStateNode node = new GameStateNode();
-        		node.setDetectiveLocations(rootNode.getDetectiveLocations());
+        		node.setDetectiveLocations(parentNode.getDetectiveLocations());
         		node.setMrXLocation(move.location);
         		
-        		rootNode.addChild(createGameTree(node, depth-1));
+        		parentNode.addChild(createGameTree(node, depth-1));
         	}
         } else {
         	List<Integer> detectiveIds = aiReadable.getDetectiveIdList();
-        	List<List<Move>> detectiveMovesLists = new ArrayList<>();
+        	List<Set<Move>> detectivesMoves = new ArrayList<>();
         	
         	for (Integer id : detectiveIds) {
-        		int detectiveLocation = rootNode.getDetectiveLocation(id);
+        		int detectiveLocation = parentNode.getDetectiveLocation(id);
         		List<Move> possibleMoves = getPossibleMoves(detectiveLocation, id);
-        		
-        		detectiveMovesLists.add(possibleMoves);
+        		detectivesMoves.add(new TreeSet<>(possibleMoves));
+        	}
+        	
+        	Set<List<Move>> finalPossibleMoves = Sets.cartesianProduct(detectivesMoves);
+        	for (List<Move> move : finalPossibleMoves) {
+        		GameStateNode node = new GameStateNode();
+        		node.setMrXLocation(parentNode.getMrXLocation());
+        		node.setDetectiveLocations(move);
+        		parentNode.addChild(createGameTree(node, depth-1));
         	}
         }
-		return rootNode;
+		return parentNode;
 	}
 
 	private void setDetectiveAndMrXLocationsForNode(GameStateNode node) {
@@ -65,6 +79,19 @@ public class ShortestPathAI extends AI {
 			int detectiveLocation = aiReadable.getNodeId(id);
 			node.addDetectiveLocation(id, detectiveLocation);
 		} 
+	}
+	
+	public static void main(String[] args) {
+		ShortestPathAI ai = new ShortestPathAI();
+		Set<Move> moves = new TreeSet<>();
+		moves.add(ai.new Move(TicketType.Bus, 1));
+		moves.add(ai.new Move(TicketType.Bus, 2));
+		moves.add(ai.new Move(TicketType.Bus, 3));
+		
+		List<Set<Move>> cartesianList = new ArrayList<>();
+		cartesianList.add(moves);
+		cartesianList.add(moves);
+		System.out.println(Sets.cartesianProduct(cartesianList));
 	}
 	
 }

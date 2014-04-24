@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ai.AI.Move;
+
 public class GameStateNode {
 	private GameStateNode parent;
 	private List<GameStateNode> children;
@@ -18,6 +20,10 @@ public class GameStateNode {
 		detectiveLocations = new HashMap<>();
 	}
 	
+	public GameStateNode(GameStateNode parentNode, Move move) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void setParent(GameStateNode parent) {
 		this.parent = parent;
 	}
@@ -68,6 +74,17 @@ public class GameStateNode {
 	
 	public Integer getMrXLocation() {
 		return mrXLocation;
+	}
+
+	public void setDetectiveLocations(List<Move> detectiveMoves) {
+		for(int i = 0; i < detectiveMoves.size(); i++) {
+			detectiveLocations.put(i, detectiveMoves.get(0).location);
+		}
+	}
+	
+	public String toString() {
+		// TODO: MAke this print stuff out for debugging
+		return detectiveLocations.toString() + "\n";
 	}
 
 }

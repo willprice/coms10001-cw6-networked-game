@@ -13,7 +13,7 @@ public abstract class AI {
 	 * Small class to hold a move object. A move is simply
 	 * a target location and a ticket type
 	 */
-	public class Move
+	public class Move implements Comparable<Move>
 	{
 		public Move(Initialisable.TicketType type, int location)
 		{
@@ -26,7 +26,16 @@ public abstract class AI {
 		
 		public String toString()
 		{
-			return String.format("[%s %d]", type, location);
+			return String.format("(%s %d)", type, location);
+		}
+
+		private AI getOuterType() {
+			return AI.this;
+		}
+
+		@Override
+		public int compareTo(Move o) {
+			return Integer.compare(location, o.location);
 		}
 	}
 	

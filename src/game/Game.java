@@ -43,7 +43,7 @@ public class Game {
 		
 		// specify the mode of the game we are playing
 		controller.setVisualise(visualise);
-		controller.setPlayerAssignments(PlayerAssignments.AllAI);
+		controller.setPlayerAssignments(PlayerAssignments.AllGui);
 		controller.setUseServer(true);
 		
 		// run the game

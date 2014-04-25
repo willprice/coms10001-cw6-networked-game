@@ -82,11 +82,12 @@ public class ShortestPathAI extends AI {
 		} 
 	}
 	
-	public List<List<Pair<Integer, Integer>>> cartesianProduct(List<Pair<Integer, Integer>> xs, List<Pair<Integer, Integer>> ys) {
-		List<List<Pair<Integer, Integer>>> product = new ArrayList<>();
-		for (Pair<Integer, Integer> x : xs) {
-			for (Pair<Integer, Integer> y : ys) {
-				List<Pair<Integer, Integer>> moveCombination = new ArrayList<>();
+	public List<List<List<Integer>>> cartesianProduct(List<List<Integer>> xs, 
+			List<List<Integer>> ys) {
+		List<List<List<Integer>>> product = new ArrayList<>();
+		for (List<Integer> x : xs) {
+			for (List<Integer> y : ys) {
+				List<List<Integer>> moveCombination = new ArrayList<>();
 				moveCombination.add(x);
 				moveCombination.add(y);
 				product.add(moveCombination);
@@ -104,19 +105,20 @@ public class ShortestPathAI extends AI {
 		egData.add(new Pair(2, Arrays.asList(4, 7)));
 		egData.add(new Pair(3, Arrays.asList(8, 9)));
 	
-		List<List<Pair<Integer, Integer>>> moves = new ArrayList<>();
+		List<List<List<Integer>>> moves = new ArrayList<>();
 		for (Pair<Integer, List<Integer>> pair : egData) {
-			List<Pair<Integer, Integer>> combination = new ArrayList<>();
+			List<List<Integer>> combination = new ArrayList<>();
 			for (Integer move : pair.y){ 
-				combination.add(new Pair(pair.x, move));
+				combination.add(Arrays.asList(pair.x, move));
 			}
 			moves.add(combination);
 		}
 		
-		List<List<Pair<Integer, Integer>>> p1 = ai.cartesianProduct(moves.get(0), moves.get(1));
+		List<List<List<Integer>>> p1 = ai.cartesianProduct(moves.get(0), moves.get(1));
 		System.out.println(moves);
 		System.out.print(p1);
 		for (int i=2; i < moves.size(); ++i) {
+
 			//p1 = ai.cartesianProduct(p1, moves.get(i));
 		}
 	}

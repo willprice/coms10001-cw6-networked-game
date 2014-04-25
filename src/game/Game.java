@@ -28,7 +28,7 @@ public class Game {
 		ClientGameState state = new ClientGameState();
 		GameController controller = new GameController();
 		TriggeredGUI gui = new TriggeredGUI();
-		AI ai = new ShortestPathAI();
+		AI ai = new RandomAI();
 		
 		
 		
@@ -43,7 +43,7 @@ public class Game {
 		
 		// specify the mode of the game we are playing
 		controller.setVisualise(visualise);
-		controller.setPlayerAssignments(PlayerAssignments.AllGui);
+		controller.setPlayerAssignments(PlayerAssignments.AllAI);
 		controller.setUseServer(true);
 		
 		// run the game
